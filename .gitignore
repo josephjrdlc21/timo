@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+*.tsbuildinfo
+
+# Test / coverage
+coverage/
+
+# Generated code (regenerated via postinstall: prisma generate)
+backend/src/generated/
+
+# Local env overrides (per-package env files handled in their own .gitignore)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

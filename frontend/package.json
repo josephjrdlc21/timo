@@ -1,0 +1,43 @@
+{
+  "name": "@timo/frontend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.5.0"
+  },
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "dev:client": "pnpm --filter @timo/client-spa dev",
+    "dev:iam": "pnpm --filter @timo/iam-admin dev",
+    "build": "pnpm --filter @timo/client-spa --filter @timo/iam-admin build",
+    "build:client": "pnpm --filter @timo/client-spa build",
+    "build:iam": "pnpm --filter @timo/iam-admin build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "@tanstack/eslint-plugin-query": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "daisyui": "^5.6.18",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-react-hooks": "catalog:",
+    "eslint-plugin-react-refresh": "catalog:",
+    "globals": "catalog:",
+    "jsdom": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:",
+    "vitest": "catalog:"
+  }
+}

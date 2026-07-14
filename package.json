@@ -1,0 +1,19 @@
+{
+  "name": "timo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Root task runner for the TIMO monorepo (backend + frontend).",
+  "scripts": {
+    "lint": "pnpm -C backend lint && pnpm -C frontend lint",
+    "lint:fix": "pnpm -C backend lint:fix && pnpm -C frontend lint:fix",
+    "typecheck": "pnpm -C backend typecheck && pnpm -C frontend typecheck",
+    "format": "pnpm -C backend format && pnpm -C frontend format",
+    "format:check": "pnpm -C backend format:check && pnpm -C frontend format:check",
+    "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck",
+    "install:all": "pnpm -C backend install && pnpm -C frontend install",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

@@ -1,0 +1,52 @@
+packages:
+  - "packages/*"
+  - "client-spa"
+  - "iam-admin"
+
+# Single source of truth for every dependency version.
+# Reference in any package.json as e.g. "react": "catalog:".
+# Bump a version here once and every workspace package picks it up.
+catalog:
+  # Core
+  vite: 8.1.4
+  "@vitejs/plugin-react": 6.0.3
+  react: 19.2.7
+  react-dom: 19.2.7
+  "@types/react": 19.2.17
+  "@types/react-dom": 19.2.3
+  "@types/node": 22.20.1
+  typescript: 5.9.3
+
+  # Routing / data / forms
+  react-router-dom: 7.18.1
+  "@tanstack/react-query": 5.101.2
+  "@tanstack/react-query-devtools": 5.101.2
+  "@tanstack/react-table": 8.21.3
+  react-hook-form: 7.81.0
+  react-error-boundary: 6.1.2
+  "@hookform/resolvers": 5.4.0
+  zod: 4.4.3
+  axios: 1.18.1
+
+  # Styling
+  tailwindcss: 4.3.2
+  "@tailwindcss/vite": 4.3.2
+
+  # Testing
+  vitest: 4.1.10
+  "@vitest/coverage-v8": 4.1.10
+  jsdom: 29.1.1
+  "@testing-library/react": 16.3.2
+  "@testing-library/jest-dom": 6.9.1
+  "@testing-library/user-event": 14.6.1
+
+  # Lint / format
+  eslint: 10.7.0
+  "@eslint/js": 10.0.1
+  typescript-eslint: 8.63.0
+  eslint-plugin-react-hooks: 7.1.1
+  eslint-plugin-react-refresh: 0.5.3
+  eslint-config-prettier: 10.1.8
+  "@tanstack/eslint-plugin-query": 5.101.2
+  prettier: 3.9.5
+  globals: 17.7.0
