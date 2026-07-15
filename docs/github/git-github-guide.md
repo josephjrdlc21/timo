@@ -52,7 +52,7 @@ Rules:
   feature commit, even if you noticed it along the way — split it out.
 
 These rules are enforced automatically by a Husky `commit-msg` hook
-(`scripts/hooks/validate-commit-msg.mjs`), and `pnpm check` runs on `pre-commit`.
+(`validate-commit-msg.mjs`), and `pnpm check` runs on `pre-commit`.
 See [Git hooks](#5-git-hooks-husky) below.
 
 ### Example with a body
@@ -102,7 +102,7 @@ commit. Two hooks run:
 
 - **`pre-commit`** → `pnpm check` (format:check + lint + typecheck across
   backend and frontend). A commit is blocked if any of these fail.
-- **`commit-msg`** → `scripts/hooks/validate-commit-msg.mjs`, which rejects the
+- **`commit-msg`** → `validate-commit-msg.mjs`, which rejects the
   commit unless the message:
   - matches `<type>(TIMO-XXX): <summary>` with a type of `feat`, `fix`,
     `chore`, `refactor`, or `docs`, and a `TIMO-<number>` scope;

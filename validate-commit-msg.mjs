@@ -1,6 +1,6 @@
 /**
  * commit-msg hook: enforce the TIMO commit convention.
- * See github-workflow/git-github-guide.md for the full rules.
+ * See docs/github/git-github-guide.md for the full rules.
  *
  *   <type>(TIMO-XXX): <summary>   <- header, <= 72 chars
  *   <blank line>
@@ -63,7 +63,7 @@ if (errors.length > 0) {
     console.error("  - " + err.replace(/\n/g, "\n    "));
   }
   console.error(
-    "\nConvention: github-workflow/git-github-guide.md\n" +
+    "\nConvention: docs/github/git-github-guide.md\n" +
       "\nExample:\n" +
       "  fix(TIMO-12): reject negative transaction amounts\n" +
       "\n" +
