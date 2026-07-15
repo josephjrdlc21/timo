@@ -3,7 +3,7 @@
 ## Jira ticket creation
 
 Before creating **any** Jira ticket for this project, **read
-`jira-ticket/jira-ticket-template.md`** and follow its structure and
+`docs/jira/jira-ticket-template.md`** and follow its structure and
 conventions. Draft the ticket in that format, confirm with the user if anything
 is missing, then create it via the Atlassian MCP.
 
@@ -39,6 +39,6 @@ ESLint rules.
 ## Git & GitHub work
 
 Before creating **any** branch, commit, or pull request for this project,
-**read `github-workflow/git-github-guide.md`** and follow its conventions (branch
+**read `docs/github/git-github-guide.md`** and follow its conventions (branch
 naming, Conventional Commit format, PR titles, and the develop-based merge
 flow).
