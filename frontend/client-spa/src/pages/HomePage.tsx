@@ -1,5 +1,3 @@
-import { Button } from "@timo/ui";
-
 export function HomePage() {
   return (
     <section className="flex flex-col gap-4">
@@ -8,9 +6,6 @@ export function HomePage() {
         Vite + React + TypeScript wired with TanStack Query, TanStack Table, React Router, React
         Hook Form, Axios and Tailwind — sharing <code>@timo/*</code> workspace packages.
       </p>
-      <div>
-        <Button>Get started</Button>
-      </div>
     </section>
   );
 }
