@@ -54,6 +54,9 @@ catalogs:
     axios:
       specifier: 1.18.1
       version: 1.18.1
+    daisyui:
+      specifier: 5.6.18
+      version: 5.6.18
     eslint:
       specifier: 10.7.0
       version: 10.7.0
@@ -125,9 +128,6 @@ importers:
       '@vitest/coverage-v8':
         specifier: 'catalog:'
         version: 4.1.10(vitest@4.1.10)
-      daisyui:
-        specifier: ^5.6.18
-        version: 5.6.18
       eslint:
         specifier: 'catalog:'
         version: 10.7.0(jiti@2.7.0)
@@ -173,6 +173,9 @@ importers:
       '@tanstack/react-table':
         specifier: 'catalog:'
         version: 8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@timo/brand':
+        specifier: workspace:*
+        version: link:../packages/brand
       '@timo/common':
         specifier: workspace:*
         version: link:../packages/common
@@ -261,6 +264,9 @@ importers:
       '@tanstack/react-table':
         specifier: 'catalog:'
         version: 8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@timo/brand':
+        specifier: workspace:*
+        version: link:../packages/brand
       '@timo/common':
         specifier: workspace:*
         version: link:../packages/common
@@ -334,6 +340,59 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@22.20.1)(@vitest/coverage-v8@4.1.10)(jsdom@29.1.1)(vite@8.1.4(@types/node@22.20.1)(jiti@2.7.0))
+
+  packages/auth:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.101.2(react@19.2.7)
+      '@timo/common':
+        specifier: workspace:*
+        version: link:../common
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.3(@types/react@19.2.17)
+      react:
+        specifier: 'catalog:'
+        version: 19.2.7
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.7(react@19.2.7)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
+  packages/brand:
+    dependencies:
+      daisyui:
+        specifier: 'catalog:'
+        version: 5.6.18
+    devDependencies:
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.3(@types/react@19.2.17)
+      react:
+        specifier: 'catalog:'
+        version: 19.2.7
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.7(react@19.2.7)
+      tailwindcss:
+        specifier: 'catalog:'
+        version: 4.3.2
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
 
   packages/common:
     dependencies:

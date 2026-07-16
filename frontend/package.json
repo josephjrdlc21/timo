@@ -28,7 +28,6 @@
     "@tanstack/eslint-plugin-query": "catalog:",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "daisyui": "^5.6.18",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
     "eslint-plugin-react-hooks": "catalog:",
