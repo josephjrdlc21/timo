@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Timo — Client SPA</title>
+    <!--
+      Resolve the theme before first paint, otherwise the default theme renders
+      and then swaps once React mounts. Key must match THEME_STORAGE_KEY in
+      @timo/brand.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("timo.theme");
+          var isTheme = stored === "timo-light" || stored === "timo-dark";
+          var theme = isTheme
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "timo-dark"
+              : "timo-light";
+          document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+          /* storage blocked — ThemeProvider still applies the theme on mount */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
