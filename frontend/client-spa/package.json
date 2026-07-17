@@ -22,6 +22,7 @@
     "@timo/features": "workspace:*",
     "@timo/ui": "workspace:*",
     "axios": "catalog:",
+    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-error-boundary": "catalog:",
