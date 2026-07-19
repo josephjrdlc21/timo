@@ -24,15 +24,19 @@ export function ThemeSwitcher({ collapsed = false }: ThemeSwitcherProps) {
     const ActiveIcon =
       preference === "system" ? Monitor : resolvedTheme === "timo-dark" ? Moon : Sun;
     return (
-      <button
-        type="button"
-        onClick={() => setPreference(next)}
-        className="btn btn-ghost btn-sm btn-circle mx-auto"
-        aria-label={`Theme: ${preference === "system" ? "System" : preference === "timo-dark" ? "Dark" : "Light"}. Click to change.`}
-        title="Change theme"
-      >
-        <ActiveIcon className="h-5 w-5" aria-hidden="true" />
-      </button>
+      // `.btn` is inline-flex, so `mx-auto` alone would not centre it — the
+      // flex wrapper is what lines the glyph up with the nav icon rail.
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={() => setPreference(next)}
+          className="btn btn-ghost btn-sm btn-circle"
+          aria-label={`Theme: ${preference === "system" ? "System" : preference === "timo-dark" ? "Dark" : "Light"}. Click to change.`}
+          title="Change theme"
+        >
+          <ActiveIcon className="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
     );
   }
 
@@ -51,7 +55,7 @@ export function ThemeSwitcher({ collapsed = false }: ThemeSwitcherProps) {
             onClick={() => setPreference(value)}
             aria-pressed={active}
             className={cn(
-              "flex flex-1 items-center justify-center gap-1.5 rounded-[calc(var(--radius-box)-0.25rem)] px-2 py-1.5 text-xs font-medium transition-colors",
+              "flex flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-[calc(var(--radius-box)-0.25rem)] px-2 py-1.5 text-xs font-medium transition-colors duration-200 ease-out",
               active
                 ? "bg-base-100 text-base-content shadow-sm"
                 : "text-base-content/60 hover:text-base-content",

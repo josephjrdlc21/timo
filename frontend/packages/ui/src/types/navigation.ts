@@ -17,6 +17,14 @@ export interface NavItem {
   children?: NavItem[];
 }
 
+export interface BreadcrumbItem {
+  label: string;
+  /** Omit on the current page — it renders as text, not a link. */
+  href?: string;
+  /** Marks the current page. Defaults to the last item in the trail. */
+  active?: boolean;
+}
+
 export interface NavSection {
   id: string;
   /** Uppercase heading shown above the group (hidden when collapsed). */

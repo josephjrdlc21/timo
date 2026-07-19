@@ -18,11 +18,18 @@ export function NavItem({ item, collapsed = false, onNavigate }: NavItemProps) {
 
   const rowClass = ({ isActive }: { isActive: boolean }) =>
     cn(
-      "group flex items-center rounded-field px-3 py-2 text-sm font-medium transition-colors",
+      // w-full matters for the placeholder <button> rows — buttons size to
+      // their content, so without it they'd sit narrower than the links.
+      // text-left undoes the button default, which w-full would otherwise expose.
+      "group flex w-full cursor-pointer items-center rounded-field px-3 py-2 text-left text-sm font-medium",
+      "transition-[background-color,color,transform] duration-200 ease-out",
       collapsed ? "justify-center" : "gap-3",
       isActive
         ? "bg-base-200 text-base-content"
         : "text-base-content/70 hover:bg-base-200/60 hover:text-base-content",
+      // A centred icon sliding sideways reads as a glitch, so nudge only when
+      // the label is showing.
+      !collapsed && "hover:translate-x-0.5",
     );
 
   const content = (

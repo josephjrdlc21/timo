@@ -1,37 +1,19 @@
-import { Bell, Menu, PanelLeft, Search, User } from "lucide-react";
+import { Bell, Menu, Search, User } from "lucide-react";
+import { Breadcrumb } from "./Breadcrumb";
+import type { BreadcrumbItem } from "../../types/navigation";
 
 interface TopbarProps {
   /** Open the mobile drawer (hamburger). */
   onOpenMobile: () => void;
-  /** Toggle the desktop sidebar collapse (panel button). */
-  onTogglePanel: () => void;
+  /** Trail for the current page. Omit to leave the left side empty. */
+  breadcrumb?: BreadcrumbItem[];
   notificationCount?: number;
 }
 
-/** A rounded US flag — emoji flags don't render on every platform. */
-function UsFlag() {
+/** Application top bar: breadcrumb left, search + notifications / profile right. */
+export function Topbar({ onOpenMobile, breadcrumb, notificationCount = 6 }: TopbarProps) {
   return (
-    <span className="ring-base-300 inline-flex h-6 w-6 overflow-hidden rounded-full ring-1">
-      <svg viewBox="0 0 24 24" className="h-full w-full" aria-hidden="true">
-        <rect width="24" height="24" fill="#b22234" />
-        <g fill="#fff">
-          <rect y="1.85" width="24" height="1.85" />
-          <rect y="5.54" width="24" height="1.85" />
-          <rect y="9.23" width="24" height="1.85" />
-          <rect y="12.92" width="24" height="1.85" />
-          <rect y="16.62" width="24" height="1.85" />
-          <rect y="20.31" width="24" height="1.85" />
-        </g>
-        <rect width="11" height="12.92" fill="#3c3b6e" />
-      </svg>
-    </span>
-  );
-}
-
-/** Application top bar: search + panel / language / notifications / profile. */
-export function Topbar({ onOpenMobile, onTogglePanel, notificationCount = 6 }: TopbarProps) {
-  return (
-    <header className="bg-base-100 border-base-300 sticky top-0 z-20 border-b">
+    <header className="bg-base-100 border-base-300 sticky top-3 z-20 rounded-2xl border shadow-xs">
       <div className="flex h-16 items-center gap-2 px-3 sm:gap-3 sm:px-4">
         {/* Mobile-only: open the drawer. */}
         <button
@@ -43,17 +25,20 @@ export function Topbar({ onOpenMobile, onTogglePanel, notificationCount = 6 }: T
           <Menu className="h-5 w-5" aria-hidden="true" />
         </button>
 
+        {breadcrumb && <Breadcrumb items={breadcrumb} className="hidden sm:block" />}
+
         {/* Mobile-only: search affordance (full field is desktop). */}
         <button
           type="button"
-          className="btn btn-ghost btn-sm btn-square lg:hidden"
+          className="btn btn-ghost btn-sm btn-square ml-auto lg:hidden"
           aria-label="Search"
         >
           <Search className="h-5 w-5" aria-hidden="true" />
         </button>
 
-        {/* Desktop search field. */}
-        <label className="bg-base-200 focus-within:ring-primary/40 hidden h-10 flex-1 items-center gap-2 rounded-full px-4 focus-within:ring-2 lg:flex">
+        {/* ml-auto is what pushes search and the actions into one right-hand
+            group, leaving the breadcrumb alone on the left. */}
+        <label className="bg-base-200 focus-within:ring-primary/40 ml-auto hidden h-10 w-full max-w-md items-center gap-2 rounded-full px-4 focus-within:ring-2 lg:flex">
           <Search className="text-base-content/40 h-4 w-4 shrink-0" aria-hidden="true" />
           <input
             type="search"
@@ -63,20 +48,7 @@ export function Topbar({ onOpenMobile, onTogglePanel, notificationCount = 6 }: T
           <kbd className="kbd kbd-sm text-base-content/50">⌘K</kbd>
         </label>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2 lg:ml-0">
-          <button
-            type="button"
-            onClick={onTogglePanel}
-            className="btn btn-ghost btn-sm btn-square"
-            aria-label="Toggle sidebar"
-          >
-            <PanelLeft className="h-5 w-5" aria-hidden="true" />
-          </button>
-
-          <button type="button" className="btn btn-ghost btn-sm btn-circle" aria-label="Language">
-            <UsFlag />
-          </button>
-
+        <div className="flex items-center gap-1 sm:gap-2">
           <button
             type="button"
             className="btn btn-ghost btn-sm btn-square relative"
