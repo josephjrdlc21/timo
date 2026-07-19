@@ -75,6 +75,17 @@
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 0.75rem;
+
+  /*
+   * daisyUI reads these as `border-width: var(--border)` with no fallback, so
+   * omitting them makes the declaration invalid and border-width lands on its
+   * initial value, `medium` (~3px). They are required, not optional.
+   */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
 @plugin "daisyui/theme" {
@@ -111,4 +122,11 @@
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 0.75rem;
+
+  /* See timo-light — these are required for daisyUI's borders and depth. */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
