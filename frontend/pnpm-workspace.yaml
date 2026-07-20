@@ -31,6 +31,8 @@ catalog:
   # Styling
   tailwindcss: 4.3.2
   "@tailwindcss/vite": 4.3.2
+  daisyui: 5.6.18
+  lucide-react: 1.25.0
 
   # Testing
   vitest: 4.1.10

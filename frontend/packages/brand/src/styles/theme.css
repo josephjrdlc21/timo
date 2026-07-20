@@ -1,0 +1,132 @@
+/*
+ * TIMO brand theme. Imported by each app after `@import "tailwindcss"`.
+ *
+ * Every colour here is sampled from the source logo (docs: timo.png) and
+ * converted to oklch, which is what daisyUI 5 expects. The brand sits on a
+ * single hue of roughly 163 with chroma around 0.12.
+ *
+ *   #004A35  wordmark      oklch(36.3% 0.075 166.5)
+ *   #0B885F  tile gradient oklch(55.6% 0.117 163.1)
+ *   #179D6F  sparkle       oklch(61.8% 0.128 163.1)
+ *   #6CD29D  gem highlight oklch(78.8% 0.123 159.0)
+ */
+
+@plugin "daisyui" {
+  themes:
+    timo-light --default,
+    timo-dark --prefersdark;
+}
+
+/*
+ * Tailwind only scans files it is told about. These paths are resolved
+ * relative to THIS file, so declaring them once here covers both apps —
+ * without them, a class used only inside a shared package is silently
+ * dropped from every bundle.
+ */
+@source "..";
+@source "../../../ui/src";
+@source "../../../features/src";
+@source "../../../auth/src";
+
+/* Raw brand ramp, for when a semantic daisyUI token is the wrong fit. */
+@theme {
+  --color-brand-50: oklch(97.5% 0.02 163);
+  --color-brand-100: oklch(94% 0.04 163);
+  --color-brand-200: oklch(88% 0.06 163);
+  --color-brand-300: oklch(82% 0.09 163);
+  --color-brand-400: oklch(72% 0.12 163);
+  --color-brand-500: oklch(61.8% 0.128 163);
+  --color-brand-600: oklch(55.6% 0.117 163);
+  --color-brand-700: oklch(50.2% 0.116 159);
+  --color-brand-800: oklch(43% 0.09 165);
+  --color-brand-900: oklch(36.3% 0.075 166.5);
+  --color-brand-950: oklch(28% 0.06 166);
+}
+
+@plugin "daisyui/theme" {
+  name: "timo-light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(97% 0.01 163);
+  --color-base-300: oklch(93% 0.015 163);
+  --color-base-content: oklch(25% 0.04 166);
+
+  --color-primary: oklch(55.6% 0.117 163.1);
+  --color-primary-content: oklch(98% 0.01 163);
+  --color-secondary: oklch(36.3% 0.075 166.5);
+  --color-secondary-content: oklch(97% 0.01 163);
+  --color-accent: oklch(78.8% 0.123 159);
+  --color-accent-content: oklch(28% 0.06 166);
+  --color-neutral: oklch(37.9% 0.079 165.6);
+  --color-neutral-content: oklch(97% 0.01 163);
+
+  --color-info: oklch(70% 0.12 230);
+  --color-info-content: oklch(98% 0.01 230);
+  --color-success: oklch(61.8% 0.128 163.1);
+  --color-success-content: oklch(98% 0.01 163);
+  --color-warning: oklch(80% 0.16 85);
+  --color-warning-content: oklch(26% 0.07 85);
+  --color-error: oklch(60% 0.2 25);
+  --color-error-content: oklch(98% 0.01 25);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+
+  /*
+   * daisyUI reads these as `border-width: var(--border)` with no fallback, so
+   * omitting them makes the declaration invalid and border-width lands on its
+   * initial value, `medium` (~3px). They are required, not optional.
+   */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "timo-dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* daisyUI convention: in dark themes base-200/300 go darker than base-100. */
+  --color-base-100: oklch(23% 0.02 166);
+  --color-base-200: oklch(19% 0.018 166);
+  --color-base-300: oklch(15% 0.015 166);
+  --color-base-content: oklch(93% 0.02 163);
+
+  /* Lifted off the light theme's values: #0B885F lacks contrast on a dark base. */
+  --color-primary: oklch(61.8% 0.128 163.1);
+  --color-primary-content: oklch(15% 0.03 166);
+  --color-secondary: oklch(78.8% 0.123 159);
+  --color-secondary-content: oklch(18% 0.04 166);
+  --color-accent: oklch(78.8% 0.123 159);
+  --color-accent-content: oklch(18% 0.04 166);
+  --color-neutral: oklch(30% 0.03 166);
+  --color-neutral-content: oklch(93% 0.02 163);
+
+  --color-info: oklch(72% 0.12 230);
+  --color-info-content: oklch(15% 0.03 230);
+  --color-success: oklch(72% 0.13 163);
+  --color-success-content: oklch(15% 0.03 163);
+  --color-warning: oklch(82% 0.16 85);
+  --color-warning-content: oklch(20% 0.05 85);
+  --color-error: oklch(68% 0.19 25);
+  --color-error-content: oklch(15% 0.03 25);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+
+  /* See timo-light — these are required for daisyUI's borders and depth. */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
