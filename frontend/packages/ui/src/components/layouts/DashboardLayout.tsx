@@ -3,13 +3,21 @@ import { cn } from "../../lib/utils/cn";
 import { MobileDrawer } from "../overlays/MobileDrawer";
 import { Sidebar } from "../navigation/Sidebar";
 import { Topbar } from "../navigation/Topbar";
-import type { BreadcrumbItem, NavSection } from "../../types/navigation";
+import type { AccountMenuItem, BreadcrumbItem, NavSection } from "../../types/navigation";
 
 interface DashboardLayoutProps {
   nav: NavSection[];
   brandName: string;
   /** Trail for the current page, shown on the left of the top bar. */
   breadcrumb?: BreadcrumbItem[];
+  /** Invoked when the sidebar help button is pressed. */
+  onHelp?: () => void;
+  /** Signed-in user's display name, shown on the top bar account menu. */
+  userName?: string;
+  /** Signed-in user's email, shown as the account menu subtitle. */
+  userEmail?: string;
+  /** Rows for the top bar account dropdown (Profile, Settings, Log out, …). */
+  accountMenuItems?: AccountMenuItem[];
   children: ReactNode;
 }
 
@@ -25,7 +33,16 @@ function readCollapsed(): boolean {
 }
 
 /** Dashboard layout: collapsible sidebar + top bar around routed page content. */
-export function DashboardLayout({ nav, brandName, breadcrumb, children }: DashboardLayoutProps) {
+export function DashboardLayout({
+  nav,
+  brandName,
+  breadcrumb,
+  onHelp,
+  userName,
+  userEmail,
+  accountMenuItems,
+  children,
+}: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(readCollapsed);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -57,6 +74,7 @@ export function DashboardLayout({ nav, brandName, breadcrumb, children }: Dashbo
             brandName={brandName}
             collapsed={collapsed}
             onToggle={toggleCollapsed}
+            onHelp={onHelp}
           />
         </div>
       </div>
@@ -68,13 +86,20 @@ export function DashboardLayout({ nav, brandName, breadcrumb, children }: Dashbo
           brandName={brandName}
           onToggle={closeMobile}
           onNavigate={closeMobile}
+          onHelp={onHelp}
           floating={false}
         />
       </MobileDrawer>
 
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <Topbar onOpenMobile={() => setMobileOpen(true)} breadcrumb={breadcrumb} />
+        <Topbar
+          onOpenMobile={() => setMobileOpen(true)}
+          breadcrumb={breadcrumb}
+          userName={userName}
+          userEmail={userEmail}
+          accountMenuItems={accountMenuItems}
+        />
         {/* No horizontal padding: page content lines up with the top bar
             card's outer edges, which the column gutter already insets. */}
         <main className="flex-1 py-3">{children}</main>

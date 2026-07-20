@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, HelpCircle } from "lucide-react";
 import { cn } from "../../lib/utils/cn";
 import { Brand } from "../brand/Brand";
 import { NavItem } from "./NavItem";
@@ -14,6 +14,8 @@ interface SidebarProps {
   onToggle?: () => void;
   /** Called after a real link is followed (closes the drawer on mobile). */
   onNavigate?: () => void;
+  /** Invoked when the footer help button is pressed. */
+  onHelp?: () => void;
   /** Rounded, fully-bordered card (desktop). False for the edge-to-edge drawer. */
   floating?: boolean;
 }
@@ -25,6 +27,7 @@ export function Sidebar({
   collapsed = false,
   onToggle,
   onNavigate,
+  onHelp,
   floating = true,
 }: SidebarProps) {
   const ChevIcon = collapsed ? ChevronRight : ChevronLeft;
@@ -79,8 +82,21 @@ export function Sidebar({
         ))}
       </nav>
 
-      <div className="shrink-0 p-3">
+      <div className="shrink-0 space-y-2 p-3">
         <ThemeSwitcher collapsed={collapsed} />
+        <button
+          type="button"
+          onClick={onHelp}
+          className={cn(
+            "rounded-field border-base-300 text-base-content/70 hover:bg-base-200/60 hover:text-base-content flex w-full cursor-pointer items-center border px-3 py-2 text-sm font-medium transition-colors duration-200 ease-out",
+            collapsed ? "justify-center" : "gap-3",
+          )}
+          aria-label="Help"
+          title={collapsed ? "Help" : undefined}
+        >
+          <HelpCircle className="h-5 w-5 shrink-0" aria-hidden="true" />
+          {!collapsed && <span className="truncate">Help</span>}
+        </button>
       </div>
     </div>
   );

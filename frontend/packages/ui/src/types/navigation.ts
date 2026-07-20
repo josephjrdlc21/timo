@@ -31,3 +31,15 @@ export interface NavSection {
   label: string;
   items: NavItem[];
 }
+
+export interface AccountMenuItem {
+  id: string;
+  label: string;
+  icon?: LucideIcon;
+  /** Destination for real routes. Omit to render a plain action button. */
+  to?: string;
+  /** Action handler (also fires for links, e.g. to close the menu). */
+  onClick?: () => void;
+  /** Renders in the error color — for destructive actions like "Log out". */
+  danger?: boolean;
+}

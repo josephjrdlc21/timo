@@ -1,6 +1,7 @@
-import { Bell, Menu, Search, User } from "lucide-react";
+import { Bell, Menu, Search } from "lucide-react";
 import { Breadcrumb } from "./Breadcrumb";
-import type { BreadcrumbItem } from "../../types/navigation";
+import { AccountMenu } from "./AccountMenu";
+import type { AccountMenuItem, BreadcrumbItem } from "../../types/navigation";
 
 interface TopbarProps {
   /** Open the mobile drawer (hamburger). */
@@ -8,10 +9,23 @@ interface TopbarProps {
   /** Trail for the current page. Omit to leave the left side empty. */
   breadcrumb?: BreadcrumbItem[];
   notificationCount?: number;
+  /** Signed-in user's display name, shown on the account menu trigger. */
+  userName?: string;
+  /** Signed-in user's email, shown as the account menu subtitle. */
+  userEmail?: string;
+  /** Rows for the account dropdown (Profile, Settings, Log out, …). */
+  accountMenuItems?: AccountMenuItem[];
 }
 
 /** Application top bar: breadcrumb left, search + notifications / profile right. */
-export function Topbar({ onOpenMobile, breadcrumb, notificationCount = 6 }: TopbarProps) {
+export function Topbar({
+  onOpenMobile,
+  breadcrumb,
+  notificationCount = 6,
+  userName,
+  userEmail,
+  accountMenuItems,
+}: TopbarProps) {
   return (
     <header className="bg-base-100 border-base-300 sticky top-3 z-20 rounded-2xl border shadow-xs">
       <div className="flex h-16 items-center gap-2 px-3 sm:gap-3 sm:px-4">
@@ -38,7 +52,7 @@ export function Topbar({ onOpenMobile, breadcrumb, notificationCount = 6 }: Topb
 
         {/* ml-auto is what pushes search and the actions into one right-hand
             group, leaving the breadcrumb alone on the left. */}
-        <label className="bg-base-200 focus-within:ring-primary/40 ml-auto hidden h-10 w-full max-w-md items-center gap-2 rounded-full px-4 focus-within:ring-2 lg:flex">
+        <label className="bg-base-200 focus-within:ring-primary/40 ml-auto hidden h-10 w-full max-w-xs items-center gap-2 rounded-full px-4 focus-within:ring-2 lg:flex">
           <Search className="text-base-content/40 h-4 w-4 shrink-0" aria-hidden="true" />
           <input
             type="search"
@@ -62,12 +76,7 @@ export function Topbar({ onOpenMobile, breadcrumb, notificationCount = 6 }: Topb
             )}
           </button>
 
-          <button type="button" className="relative shrink-0" aria-label="Account">
-            <span className="bg-base-200 text-base-content/70 ring-base-300 flex h-9 w-9 items-center justify-center rounded-full ring-1">
-              <User className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <span className="bg-success border-base-100 absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full border-2" />
-          </button>
+          <AccountMenu userName={userName} userEmail={userEmail} items={accountMenuItems} />
         </div>
       </div>
     </header>

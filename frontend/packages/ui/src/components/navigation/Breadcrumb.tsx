@@ -19,7 +19,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
   if (items.length === 0) return null;
 
   return (
-    <nav aria-label="Breadcrumb" className={cn("breadcrumbs min-w-0 py-0 text-sm", className)}>
+    <nav aria-label="Breadcrumb" className={cn("breadcrumbs min-w-0 py-0 text-base", className)}>
       <ol>
         {items.map((item, index) => {
           // The trail's own end is the current page even when no item is
