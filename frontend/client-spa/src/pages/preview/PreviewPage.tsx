@@ -1,18 +1,25 @@
 import { useState } from "react";
 import {
   ArrowRight,
+  Bell,
   Check,
   Clock,
   Copy,
+  CreditCard,
   Download,
+  Home,
+  LayoutDashboard,
   Pencil,
   Plus,
+  Settings,
   Sparkles,
   Star,
   Trash2,
+  User,
 } from "lucide-react";
 import {
   Alert,
+  Avatar,
   Badge,
   Button,
   Card,
@@ -20,12 +27,16 @@ import {
   Dropdown,
   Kbd,
   Loader,
+  Menu,
   Modal,
   PageHeader,
   Skeleton,
+  Steps,
   Tabs,
   Toast,
   type AlertVariant,
+  type AvatarShape,
+  type AvatarSize,
   type BadgeSize,
   type BadgeVariant,
   type ButtonSize,
@@ -33,8 +44,10 @@ import {
   type DrawerSide,
   type KbdSize,
   type LoaderSize,
+  type MenuItem,
   type ModalAlign,
   type ModalSize,
+  type StepItem,
   type TabItem,
   type TabsVariant,
   type ToastVariant,
@@ -71,6 +84,38 @@ const BADGE_VARIANTS: BadgeVariant[] = [
 ];
 
 const BADGE_SIZES: BadgeSize[] = ["xs", "sm", "md", "lg", "xl"];
+
+const AVATAR_SIZES: AvatarSize[] = ["xs", "sm", "md", "lg", "xl"];
+const AVATAR_SHAPES: AvatarShape[] = ["circle", "rounded", "square"];
+
+// A stable sample image so the avatar preview isn't blank in demos.
+const AVATAR_IMG = "https://i.pravatar.cc/150?img=12";
+
+const STEP_ITEMS: StepItem[] = [
+  { id: "cart", label: "Cart" },
+  { id: "shipping", label: "Shipping" },
+  { id: "payment", label: "Payment" },
+  { id: "review", label: "Review" },
+];
+
+const MENU_ITEMS: MenuItem[] = [
+  { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="h-4 w-4" />, href: "#" },
+  { id: "profile", label: "Profile", icon: <User className="h-4 w-4" />, href: "#", active: true },
+  {
+    id: "notifications",
+    label: "Notifications",
+    icon: <Bell className="h-4 w-4" />,
+    href: "#",
+    badge: <Badge variant="primary" size="sm" label="3" />,
+  },
+  {
+    id: "billing",
+    label: "Billing",
+    icon: <CreditCard className="h-4 w-4" />,
+    href: "#",
+    disabled: true,
+  },
+];
 
 const DRAWER_SIDES: DrawerSide[] = ["left", "right", "top", "bottom"];
 
@@ -344,6 +389,175 @@ function BadgeGallery() {
         <Badge variant="warning" soft icon={<Clock className="h-3 w-3" />} label="Pending" />
         <Badge variant="error" outline icon={<Trash2 className="h-3 w-3" />} label="Overdue" />
         <Badge variant="accent" icon={<Star className="h-3 w-3" />} label="Featured" />
+      </Section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI Avatar. */
+function AvatarGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader title="Avatar" subtitle="Preview of the shared @timo/ui Avatar component" />
+
+      <Section title="Sizes (image)">
+        {AVATAR_SIZES.map((size) => (
+          <Avatar key={size} size={size} src={AVATAR_IMG} alt="Sample user" />
+        ))}
+      </Section>
+
+      <Section title="Shapes (image)">
+        {AVATAR_SHAPES.map((shape) => (
+          <Avatar key={shape} shape={shape} size="lg" src={AVATAR_IMG} alt="Sample user" />
+        ))}
+      </Section>
+
+      <Section title="Initials fallback">
+        {AVATAR_SIZES.map((size) => (
+          <Avatar key={size} size={size} name="Joseph Dela Cruz" />
+        ))}
+      </Section>
+
+      <Section title="Icon fallback (no name)">
+        <Avatar size="lg" />
+        <Avatar size="lg" shape="rounded" icon={<Star className="h-1/2 w-1/2" />} />
+      </Section>
+
+      <Section title="Presence ring">
+        <Avatar size="lg" src={AVATAR_IMG} alt="Online user" status="online" />
+        <Avatar size="lg" name="Ada Lovelace" status="online" />
+        <Avatar size="lg" name="Alan Turing" status="offline" />
+      </Section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI Steps. */
+function StepsGallery() {
+  // Drive the interactive tracker with a single index.
+  const [current, setCurrent] = useState(1);
+  const last = STEP_ITEMS.length - 1;
+
+  return (
+    <div className="space-y-10">
+      <PageHeader title="Steps" subtitle="Preview of the shared @timo/ui Steps component" />
+
+      <Section title="Colors">
+        <Steps items={STEP_ITEMS} current={1} color="primary" />
+        <Steps items={STEP_ITEMS} current={2} color="success" />
+        <Steps items={STEP_ITEMS} current={2} color="warning" />
+      </Section>
+
+      <Section title="Custom markers (data-content)">
+        <Steps
+          color="success"
+          current={3}
+          items={[
+            { id: "signed", label: "Signed up", marker: "✓" },
+            { id: "verified", label: "Verified", marker: "✓" },
+            { id: "profile", label: "Profile", marker: "✓" },
+            { id: "done", label: "Done", marker: "★" },
+          ]}
+        />
+      </Section>
+
+      <Section title="Vertical">
+        <Steps vertical items={STEP_ITEMS} current={1} />
+      </Section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Interactive
+        </h2>
+        <Steps items={STEP_ITEMS} current={current} />
+        <div className="flex gap-3">
+          <Button
+            variant="neutral"
+            outline
+            label="Back"
+            disabled={current === 0}
+            onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+          />
+          <Button
+            variant="primary"
+            label="Next"
+            disabled={current === last}
+            onClick={() => setCurrent((c) => Math.min(last, c + 1))}
+          />
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI Menu. */
+function MenuGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader title="Menu" subtitle="Preview of the shared @timo/ui Menu component" />
+
+      <Section title="Basic (icons, active, badge & disabled)">
+        <Menu items={MENU_ITEMS} className="w-56" />
+      </Section>
+
+      <Section title="Horizontal">
+        <Menu
+          horizontal
+          className="w-auto"
+          items={[
+            { id: "home", label: "Home", icon: <Home className="h-4 w-4" />, href: "#" },
+            {
+              id: "settings",
+              label: "Settings",
+              icon: <Settings className="h-4 w-4" />,
+              href: "#",
+            },
+            { id: "help", label: "Help", href: "#" },
+          ]}
+        />
+      </Section>
+
+      <Section title="With titles & a collapsible submenu">
+        <Menu
+          className="w-64"
+          items={[
+            { id: "account-title", label: "Account", title: true },
+            { id: "profile2", label: "Profile", icon: <User className="h-4 w-4" />, href: "#" },
+            {
+              id: "billing2",
+              label: "Billing",
+              icon: <CreditCard className="h-4 w-4" />,
+              href: "#",
+            },
+            {
+              id: "settings-group",
+              label: "Settings",
+              icon: <Settings className="h-4 w-4" />,
+              collapsible: true,
+              defaultOpen: true,
+              children: [
+                { id: "general", label: "General", href: "#" },
+                { id: "security", label: "Security", href: "#" },
+                { id: "notifications2", label: "Notifications", href: "#" },
+              ],
+            },
+          ]}
+        />
+      </Section>
+
+      <Section title="Sizes">
+        {(["xs", "sm", "md", "lg"] as const).map((size) => (
+          <Menu
+            key={size}
+            size={size}
+            className="w-40"
+            items={[
+              { id: `${size}-a`, label: "Overview", href: "#", active: true },
+              { id: `${size}-b`, label: "Activity", href: "#" },
+              { id: `${size}-c`, label: "Reports", href: "#" },
+            ]}
+          />
+        ))}
       </Section>
     </div>
   );
@@ -789,6 +1003,9 @@ export function PreviewPage() {
       <ButtonGallery />
       <ModalGallery />
       <BadgeGallery />
+      <AvatarGallery />
+      <StepsGallery />
+      <MenuGallery />
       <DrawerGallery />
       <CardGallery />
       <DropdownGallery />
