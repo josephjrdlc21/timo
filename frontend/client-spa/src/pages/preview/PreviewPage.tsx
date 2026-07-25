@@ -33,8 +33,10 @@ import {
   Badge,
   Button,
   Card,
+  ConfirmModal,
   Drawer,
   Dropdown,
+  Dropzone,
   EmptyState,
   ErrorState,
   InputField,
@@ -376,6 +378,79 @@ function ModalGallery() {
             way out (plus Escape).
           </p>
         </Modal>
+      </Section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI ConfirmModal. */
+function ConfirmModalGallery() {
+  const [openKey, setOpenKey] = useState<string | null>(null);
+  const [deleted, setDeleted] = useState(false);
+  const close = () => setOpenKey(null);
+
+  // Fake an async delete so the confirm button's loading state is visible.
+  const fakeAsync = () =>
+    new Promise<void>((resolve) => {
+      setTimeout(() => {
+        setDeleted(true);
+        resolve();
+        close();
+      }, 1500);
+    });
+
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="ConfirmModal"
+        subtitle="Preview of the shared @timo/ui ConfirmModal component"
+      />
+
+      <Section title="Confirm (default)">
+        <Button variant="primary" label="Publish…" onClick={() => setOpenKey("confirm")} />
+        <ConfirmModal
+          open={openKey === "confirm"}
+          onClose={close}
+          onConfirm={close}
+          title="Publish this report?"
+          description="Everyone in your workspace will be able to see it."
+          confirmLabel="Publish"
+        />
+      </Section>
+
+      <Section title="Danger (delete)">
+        <Button
+          variant="error"
+          soft
+          startIcon={<Trash2 className="h-4 w-4" />}
+          label="Delete account"
+          onClick={() => setOpenKey("danger")}
+        />
+        <ConfirmModal
+          open={openKey === "danger"}
+          onClose={close}
+          onConfirm={close}
+          variant="danger"
+          title="Delete account?"
+          description="This permanently removes the account and all of its data. This action can't be undone."
+        />
+      </Section>
+
+      <Section title="Danger + async loading">
+        <Button
+          variant="error"
+          startIcon={<Trash2 className="h-4 w-4" />}
+          label="Delete transaction"
+          onClick={() => setOpenKey("async")}
+        />
+        <ConfirmModal
+          open={openKey === "async"}
+          onClose={close}
+          onConfirm={fakeAsync}
+          variant="danger"
+          description="Deleting this transaction takes a moment — the dialog locks until it finishes."
+        />
+        {deleted && <span className="text-success text-sm">✓ Deleted</span>}
       </Section>
     </div>
   );
@@ -1311,6 +1386,56 @@ function OTPFieldGallery() {
   );
 }
 
+/** Component gallery for the shared UI Dropzone. */
+function DropzoneGallery() {
+  const [files, setFiles] = useState<File[]>([]);
+
+  return (
+    <div className="space-y-10">
+      <PageHeader title="Dropzone" subtitle="Preview of the shared @timo/ui Dropzone component" />
+
+      <div className="grid max-w-3xl gap-6 sm:grid-cols-2">
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Single file
+          </h2>
+          <Dropzone label="Avatar" accept="image/*" hint="PNG or JPG." />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Multiple (controlled)
+          </h2>
+          <Dropzone
+            label="Attachments"
+            multiple
+            files={files}
+            onFilesChange={setFiles}
+            description="or click to browse — drop as many as you like"
+          />
+          <p className="text-base-content/60 text-sm">
+            Selected: <code className="text-primary">{files.length}</code> file(s)
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Error state
+          </h2>
+          <Dropzone label="Resume" accept=".pdf" error="A PDF file is required." />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Disabled
+          </h2>
+          <Dropzone label="Locked" disabled title="Uploads are disabled" description="" />
+        </section>
+      </div>
+    </div>
+  );
+}
+
 /** Component gallery for the shared UI Dropdown. */
 function DropdownGallery() {
   const actions = [
@@ -1613,6 +1738,7 @@ export function PreviewPage() {
     <div className="mx-auto max-w-4xl space-y-16 pb-10">
       <ButtonGallery />
       <ModalGallery />
+      <ConfirmModalGallery />
       <BadgeGallery />
       <AvatarGallery />
       <StepsGallery />
@@ -1631,6 +1757,7 @@ export function PreviewPage() {
       <RangeFieldGallery />
       <ChoiceFieldsGallery />
       <OTPFieldGallery />
+      <DropzoneGallery />
       <DropdownGallery />
       <TabsGallery />
       <KbdGallery />
