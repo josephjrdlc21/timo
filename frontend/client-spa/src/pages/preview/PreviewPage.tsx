@@ -1,16 +1,26 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   ArrowRight,
   Bell,
+  Calendar,
   Check,
   Clock,
   Copy,
   CreditCard,
   Download,
+  FileText,
+  Hash,
   Home,
+  Inbox,
   LayoutDashboard,
+  Lock,
+  Mail,
   Pencil,
   Plus,
+  RotateCcw,
+  Search,
+  ServerCrash,
   Settings,
   Sparkles,
   Star,
@@ -25,15 +35,29 @@ import {
   Card,
   Drawer,
   Dropdown,
+  EmptyState,
+  ErrorState,
+  InputField,
   Kbd,
   Loader,
   Menu,
   Modal,
+  NumberField,
+  OTPField,
   PageHeader,
+  PasswordField,
+  RadioField,
+  RangeField,
+  SelectField,
   Skeleton,
   Steps,
   Tabs,
+  TextAreaField,
   Toast,
+  ToggleField,
+  CheckboxField,
+  DateField,
+  FileUploadField,
   type AlertVariant,
   type AvatarShape,
   type AvatarSize,
@@ -42,6 +66,9 @@ import {
   type ButtonSize,
   type ButtonVariant,
   type DrawerSide,
+  type EmptyStateSize,
+  type ErrorStateSize,
+  type InputFieldSize,
   type KbdSize,
   type LoaderSize,
   type MenuItem,
@@ -122,6 +149,12 @@ const DRAWER_SIDES: DrawerSide[] = ["left", "right", "top", "bottom"];
 const KBD_SIZES: KbdSize[] = ["xs", "sm", "md", "lg", "xl"];
 
 const LOADER_SIZES: LoaderSize[] = ["xs", "sm", "md", "lg", "xl"];
+
+const EMPTY_STATE_SIZES: EmptyStateSize[] = ["sm", "md", "lg"];
+
+const ERROR_STATE_SIZES: ErrorStateSize[] = ["sm", "md", "lg"];
+
+const INPUT_FIELD_SIZES: InputFieldSize[] = ["xs", "sm", "md", "lg", "xl"];
 
 const ALERT_VARIANTS: AlertVariant[] = ["info", "success", "warning", "error"];
 
@@ -700,6 +733,584 @@ function CardGallery() {
   );
 }
 
+/** Component gallery for the shared UI EmptyState. */
+function EmptyStateGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="EmptyState"
+        subtitle="Preview of the shared @timo/ui EmptyState component"
+      />
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          With icon, title, description & action
+        </h2>
+        <EmptyState
+          icon={<Inbox />}
+          title="No transactions yet"
+          description="Once you add your first transaction, it'll show up right here."
+          action={
+            <Button
+              variant="primary"
+              startIcon={<Plus className="h-4 w-4" />}
+              label="Add transaction"
+            />
+          }
+        />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Multiple actions
+        </h2>
+        <EmptyState
+          icon={<Search />}
+          title="No results found"
+          description="We couldn't find anything matching your filters. Try broadening your search."
+          action={
+            <>
+              <Button variant="neutral" outline label="Clear filters" />
+              <Button variant="primary" label="New search" />
+            </>
+          }
+        />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Text only (no icon, no action)
+        </h2>
+        <EmptyState title="Nothing here" description="This space is empty for now." />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Sizes
+        </h2>
+        <div className="space-y-4">
+          {EMPTY_STATE_SIZES.map((size) => (
+            <EmptyState
+              key={size}
+              size={size}
+              icon={<FileText />}
+              title={`Size: ${size}`}
+              description="Padding and icon scale with the size prop."
+              action={<Button variant="primary" size="sm" label="Create" />}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI ErrorState. */
+function ErrorStateGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="ErrorState"
+        subtitle="Preview of the shared @timo/ui ErrorState component"
+      />
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Default (warning icon, retry action)
+        </h2>
+        <ErrorState
+          description="We couldn't load your transactions. Please try again."
+          action={
+            <Button variant="error" startIcon={<RotateCcw className="h-4 w-4" />} label="Retry" />
+          }
+        />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Custom icon, title & multiple actions
+        </h2>
+        <ErrorState
+          icon={<ServerCrash />}
+          title="Server unavailable"
+          description="The server didn't respond. Check your connection or contact support if this keeps happening."
+          action={
+            <>
+              <Button variant="neutral" outline label="Contact support" />
+              <Button variant="error" startIcon={<RotateCcw className="h-4 w-4" />} label="Retry" />
+            </>
+          }
+        />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Text only (icon hidden, no action)
+        </h2>
+        <ErrorState
+          icon={null}
+          title="Failed to save"
+          description="Your changes could not be saved."
+        />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Sizes
+        </h2>
+        <div className="space-y-4">
+          {ERROR_STATE_SIZES.map((size) => (
+            <ErrorState
+              key={size}
+              size={size}
+              title={`Size: ${size}`}
+              description="Padding and icon scale with the size prop."
+              action={<Button variant="error" size="sm" label="Retry" />}
+            />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/** Shape of the react-hook-form demo below. */
+interface SignInForm {
+  email: string;
+  username: string;
+}
+
+/** Component gallery for the shared UI InputField. */
+function InputFieldGallery() {
+  // A plain uncontrolled/controlled demo without react-hook-form.
+  const [search, setSearch] = useState("");
+
+  // The react-hook-form demo — InputField wires up via {...register(...)}.
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInForm>({ defaultValues: { email: "", username: "" } });
+  const [submitted, setSubmitted] = useState<SignInForm | null>(null);
+
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="InputField"
+        subtitle="Preview of the shared @timo/ui InputField component"
+      />
+
+      <div className="grid gap-6 sm:grid-cols-2">
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            With label
+          </h2>
+          <InputField label="Full name" placeholder="Jane Doe" />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Without label
+          </h2>
+          <InputField placeholder="No label, just a field" />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            With leading icon
+          </h2>
+          <InputField label="Email" startIcon={<Mail />} placeholder="you@example.com" />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Controlled + icon (no RHF)
+          </h2>
+          <InputField
+            label="Search"
+            startIcon={<Search />}
+            placeholder="Type to search…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <p className="text-base-content/60 text-sm">
+            Value: <code className="text-primary">{search || "—"}</code>
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Error state
+          </h2>
+          <InputField
+            label="Email"
+            startIcon={<Mail />}
+            defaultValue="not-an-email"
+            error="Enter a valid email address."
+          />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            Helper text & disabled
+          </h2>
+          <InputField label="Username" hint="Letters, numbers, and underscores only." />
+          <InputField label="Read only" defaultValue="Locked value" disabled />
+        </section>
+      </div>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Sizes
+        </h2>
+        <div className="space-y-3">
+          {INPUT_FIELD_SIZES.map((size) => (
+            <InputField key={size} size={size} startIcon={<User />} placeholder={`Size: ${size}`} />
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          With react-hook-form (register + validation)
+        </h2>
+        <form
+          className="max-w-sm space-y-3"
+          onSubmit={handleSubmit((data) => setSubmitted(data))}
+          noValidate
+        >
+          <InputField
+            label="Email"
+            startIcon={<Mail />}
+            placeholder="you@example.com"
+            error={errors.email?.message}
+            {...register("email", {
+              required: "Email is required.",
+              pattern: { value: /^[^@\s]+@[^@\s]+\.[^@\s]+$/, message: "Enter a valid email." },
+            })}
+          />
+          <InputField
+            label="Username"
+            startIcon={<User />}
+            placeholder="jane_doe"
+            error={errors.username?.message}
+            {...register("username", {
+              required: "Username is required.",
+              minLength: { value: 3, message: "At least 3 characters." },
+            })}
+          />
+          <Button type="submit" variant="primary" label="Submit" />
+        </form>
+        {submitted && (
+          <p className="text-success text-sm">
+            Submitted: <code>{JSON.stringify(submitted)}</code>
+          </p>
+        )}
+      </section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI NumberField. */
+function NumberFieldGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="NumberField"
+        subtitle="Preview of the shared @timo/ui NumberField component"
+      />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <NumberField label="Quantity" startIcon={<Hash />} defaultValue={1} min={0} step={1} />
+        <NumberField
+          label="Amount"
+          placeholder="0.00"
+          min={0}
+          step={0.01}
+          hint="Two decimal places."
+        />
+        <NumberField label="Age" defaultValue={200} max={120} error="Must be 120 or below." />
+        <NumberField label="Read only" defaultValue={42} disabled />
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI PasswordField. */
+function PasswordFieldGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="PasswordField"
+        subtitle="Preview of the shared @timo/ui PasswordField component"
+      />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <PasswordField label="Password" startIcon={<Lock />} placeholder="••••••••" />
+        <PasswordField
+          label="With hint"
+          startIcon={<Lock />}
+          hint="At least 8 characters."
+          defaultValue="secret123"
+        />
+        <PasswordField
+          label="Error state"
+          startIcon={<Lock />}
+          defaultValue="123"
+          error="Password is too short."
+        />
+        <PasswordField label="No toggle button" startIcon={<Lock />} hideToggle />
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI TextAreaField. */
+function TextAreaFieldGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="TextAreaField"
+        subtitle="Preview of the shared @timo/ui TextAreaField component"
+      />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <TextAreaField label="Bio" placeholder="Tell us about yourself…" rows={4} />
+        <TextAreaField
+          label="Notes"
+          hint="Markdown is supported."
+          defaultValue="- First note"
+          rows={4}
+        />
+        <TextAreaField
+          label="Feedback"
+          error="This field is required."
+          rows={4}
+          containerClassName="sm:col-span-2"
+        />
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI SelectField. */
+function SelectFieldGallery() {
+  const countries = [
+    { label: "Philippines", value: "ph" },
+    { label: "United States", value: "us" },
+    { label: "Japan", value: "jp" },
+    { label: "Germany", value: "de", disabled: true },
+  ];
+
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="SelectField"
+        subtitle="Preview of the shared @timo/ui SelectField component"
+      />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <SelectField label="Country" placeholder="Choose a country" options={countries} />
+        <SelectField
+          label="With icon"
+          startIcon={<Home />}
+          defaultValue="us"
+          options={countries}
+          hint="Germany is disabled."
+        />
+        <SelectField
+          label="Error state"
+          placeholder="Choose a country"
+          options={countries}
+          error="Please select a country."
+        />
+        <SelectField label="Disabled" options={countries} defaultValue="jp" disabled />
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI DateField. */
+function DateFieldGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader title="DateField" subtitle="Preview of the shared @timo/ui DateField component" />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <DateField label="Start date" startIcon={<Calendar />} />
+        <DateField label="Appointment" type="datetime-local" />
+        <DateField label="Billing month" type="month" hint="Pick a month." />
+        <DateField label="Deadline" startIcon={<Calendar />} error="Date must be in the future." />
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI FileUploadField. */
+function FileUploadFieldGallery() {
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="FileUploadField"
+        subtitle="Preview of the shared @timo/ui FileUploadField component"
+      />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <FileUploadField label="Avatar" accept="image/*" hint="PNG or JPG, up to 2 MB." />
+        <FileUploadField label="Attachments" multiple />
+        <FileUploadField
+          label="Resume"
+          accept=".pdf"
+          error="A PDF file is required."
+          containerClassName="sm:col-span-2"
+        />
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI RangeField. */
+function RangeFieldGallery() {
+  const [volume, setVolume] = useState(40);
+
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="RangeField"
+        subtitle="Preview of the shared @timo/ui RangeField component"
+      />
+      <div className="grid max-w-2xl gap-6 sm:grid-cols-2">
+        <RangeField
+          label={`Volume: ${volume}`}
+          min={0}
+          max={100}
+          value={volume}
+          onChange={(e) => setVolume(Number(e.target.value))}
+        />
+        <RangeField label="Brightness" min={0} max={100} defaultValue={70} step={10} />
+      </div>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Sizes
+        </h2>
+        <div className="max-w-2xl space-y-3">
+          {SIZES.map((size) => (
+            <RangeField key={size} size={size} min={0} max={100} defaultValue={50} />
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI CheckboxField, ToggleField & RadioField. */
+function ChoiceFieldsGallery() {
+  const plans = [
+    { label: "Free", value: "free" },
+    { label: "Pro", value: "pro" },
+    { label: "Enterprise (contact us)", value: "enterprise", disabled: true },
+  ];
+
+  return (
+    <div className="space-y-10">
+      <PageHeader
+        title="Checkbox / Toggle / Radio"
+        subtitle="Choice fields fixed to the primary colour"
+      />
+
+      <div className="grid max-w-2xl gap-8 sm:grid-cols-2">
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            CheckboxField
+          </h2>
+          <CheckboxField label="I accept the terms" defaultChecked />
+          <CheckboxField label="Subscribe to the newsletter" />
+          <CheckboxField label="Required" error="You must accept to continue." />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            ToggleField
+          </h2>
+          <ToggleField label="Email notifications" defaultChecked />
+          <ToggleField label="Dark mode" />
+          <ToggleField label="Disabled" disabled defaultChecked />
+        </section>
+      </div>
+
+      <div className="grid max-w-2xl gap-8 sm:grid-cols-2">
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            RadioField (stacked)
+          </h2>
+          <RadioField
+            name="plan-stacked"
+            label="Choose a plan"
+            options={plans}
+            defaultValue="pro"
+          />
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+            RadioField (inline + error)
+          </h2>
+          <RadioField
+            name="plan-inline"
+            label="Billing cycle"
+            inline
+            options={[
+              { label: "Monthly", value: "monthly" },
+              { label: "Yearly", value: "yearly" },
+            ]}
+            error="Please pick a billing cycle."
+          />
+        </section>
+      </div>
+    </div>
+  );
+}
+
+/** Component gallery for the shared UI OTPField. */
+function OTPFieldGallery() {
+  const [code, setCode] = useState("");
+  const [done, setDone] = useState(false);
+
+  return (
+    <div className="space-y-10">
+      <PageHeader title="OTPField" subtitle="Preview of the shared @timo/ui OTPField component" />
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          6-digit code (controlled)
+        </h2>
+        <OTPField
+          label="Verification code"
+          value={code}
+          onChange={(v) => {
+            setCode(v);
+            setDone(false);
+          }}
+          onComplete={() => setDone(true)}
+        />
+        <p className="text-base-content/60 text-sm">
+          Value: <code className="text-primary">{code || "—"}</code>
+          {done && <span className="text-success ml-2">✓ complete</span>}
+        </p>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          4 boxes, alphanumeric
+        </h2>
+        <OTPField length={4} mode="alphanumeric" defaultValue="A1" />
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-base-content/70 text-sm font-semibold tracking-wider uppercase">
+          Error state
+        </h2>
+        <OTPField defaultValue="123456" error="That code is incorrect." />
+      </section>
+    </div>
+  );
+}
+
 /** Component gallery for the shared UI Dropdown. */
 function DropdownGallery() {
   const actions = [
@@ -1008,6 +1619,18 @@ export function PreviewPage() {
       <MenuGallery />
       <DrawerGallery />
       <CardGallery />
+      <EmptyStateGallery />
+      <ErrorStateGallery />
+      <InputFieldGallery />
+      <NumberFieldGallery />
+      <PasswordFieldGallery />
+      <TextAreaFieldGallery />
+      <SelectFieldGallery />
+      <DateFieldGallery />
+      <FileUploadFieldGallery />
+      <RangeFieldGallery />
+      <ChoiceFieldsGallery />
+      <OTPFieldGallery />
       <DropdownGallery />
       <TabsGallery />
       <KbdGallery />
