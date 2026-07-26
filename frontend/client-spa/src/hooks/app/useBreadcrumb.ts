@@ -1,3 +1,4 @@
+import { LayoutGrid } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import type { BreadcrumbItem } from "@timo/ui";
 
@@ -9,7 +10,7 @@ import type { BreadcrumbItem } from "@timo/ui";
  * Defined at module scope so the reference stays stable across renders.
  */
 const CLIENT_BREADCRUMBS: Record<string, BreadcrumbItem[]> = {
-  "/": [{ label: "Home", href: "/" }, { label: "Apps" }],
+  "/": [{ label: "Overview", icon: LayoutGrid, href: "/" }, { label: "Dashboard" }],
 };
 
 /** Returns the breadcrumb trail for the current route, or [] if untrailed. */

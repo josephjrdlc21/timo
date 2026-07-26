@@ -10,13 +10,11 @@ interface DashboardLayoutProps {
   brandName: string;
   /** Trail for the current page, shown on the left of the top bar. */
   breadcrumb?: BreadcrumbItem[];
-  /** Invoked when the sidebar help button is pressed. */
-  onHelp?: () => void;
-  /** Signed-in user's display name, shown on the top bar account menu. */
+  /** Signed-in user's display name, shown on the sidebar footer account card. */
   userName?: string;
-  /** Signed-in user's email, shown as the account menu subtitle. */
+  /** Signed-in user's email, shown as the account card subtitle. */
   userEmail?: string;
-  /** Rows for the top bar account dropdown (Profile, Settings, Log out, …). */
+  /** Rows for the sidebar account dropdown (Profile, Settings, Log out, …). */
   accountMenuItems?: AccountMenuItem[];
   children: ReactNode;
 }
@@ -32,12 +30,15 @@ function readCollapsed(): boolean {
   }
 }
 
-/** Dashboard layout: collapsible sidebar + top bar around routed page content. */
+/**
+ * Dashboard layout: a full-height collapsible sidebar flush against the left
+ * edge, with the top bar and routed page content stacked in the column beside
+ * it.
+ */
 export function DashboardLayout({
   nav,
   brandName,
   breadcrumb,
-  onHelp,
   userName,
   userEmail,
   accountMenuItems,
@@ -58,9 +59,9 @@ export function DashboardLayout({
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   return (
-    // The p-3 gutter is what makes the sidebar and top bar read as floating
-    // cards rather than panels welded to the viewport edges.
-    <div className="bg-base-200 text-base-content flex min-h-screen gap-6 p-3">
+    // Two flush columns, no outer gutter: the sidebar runs the full viewport
+    // height against the left edge and the top bar spans only the main column.
+    <div className="bg-base-200 text-base-content flex min-h-screen">
       {/* Desktop sidebar column */}
       <div
         className={cn(
@@ -68,13 +69,17 @@ export function DashboardLayout({
           collapsed ? "w-[4.5rem]" : "w-72",
         )}
       >
-        <div className="sticky top-3 h-[calc(100vh-1.5rem)]">
+        {/* Sticky + h-screen keeps the rail pinned while the main column
+            scrolls, so its footer account card stays reachable. */}
+        <div className="sticky top-0 h-screen">
           <Sidebar
             nav={nav}
             brandName={brandName}
             collapsed={collapsed}
             onToggle={toggleCollapsed}
-            onHelp={onHelp}
+            userName={userName}
+            userEmail={userEmail}
+            accountMenuItems={accountMenuItems}
           />
         </div>
       </div>
@@ -86,23 +91,17 @@ export function DashboardLayout({
           brandName={brandName}
           onToggle={closeMobile}
           onNavigate={closeMobile}
-          onHelp={onHelp}
-          floating={false}
-        />
-      </MobileDrawer>
-
-      {/* Main column */}
-      <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <Topbar
-          onOpenMobile={() => setMobileOpen(true)}
-          breadcrumb={breadcrumb}
           userName={userName}
           userEmail={userEmail}
           accountMenuItems={accountMenuItems}
         />
-        {/* No horizontal padding: page content lines up with the top bar
-            card's outer edges, which the column gutter already insets. */}
-        <main className="flex-1 py-3">{children}</main>
+      </MobileDrawer>
+
+      {/* Main column */}
+      <div className="flex min-w-0 flex-1 flex-col">
+        <Topbar onOpenMobile={() => setMobileOpen(true)} breadcrumb={breadcrumb} />
+        {/* The gutter now lives on the content instead of around the shell. */}
+        <main className="flex-1 p-4 sm:p-6">{children}</main>
       </div>
     </div>
   );

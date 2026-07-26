@@ -21,7 +21,14 @@ Run from the repo root (a root `package.json` orchestrates both projects):
 - `pnpm format:check` — Prettier `--check` (no writes)
 - `pnpm typecheck` — `tsc` over backend and frontend
 - `pnpm check` — format:check + lint + typecheck for both
+- `pnpm test` — Vitest across every frontend workspace package
 - `pnpm install:all` — install deps in both projects
+
+`pnpm test` fans out with `pnpm -r test`, so each package runs under its own
+`vitest.config.ts` and setup file. Running `vitest` from `frontend/` directly
+does **not** work — there is no config there, so it picks up a subset of the
+suites with the wrong environment. `pnpm check` deliberately does not run the
+tests: it is the `pre-commit` hook, and it is kept fast.
 
 Both projects use ESLint (flat config) + `typescript-eslint`, and Prettier for
 formatting. Backend and frontend are pinned to **TypeScript 5.9.3** — do not

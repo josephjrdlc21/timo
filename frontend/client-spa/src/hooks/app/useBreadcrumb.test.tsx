@@ -1,4 +1,5 @@
 import { renderHook } from "@testing-library/react";
+import { LayoutGrid } from "lucide-react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import type { ReactNode } from "react";
@@ -13,7 +14,10 @@ const atPath = (path: string) => {
 
 describe("useBreadcrumb", () => {
   it("returns the trail for a mapped route", () => {
-    expect(atPath("/")).toEqual([{ label: "Home", href: "/" }, { label: "Apps" }]);
+    expect(atPath("/")).toEqual([
+      { label: "Overview", icon: LayoutGrid, href: "/" },
+      { label: "Dashboard" },
+    ]);
   });
 
   it("returns an empty trail for an unmapped route", () => {

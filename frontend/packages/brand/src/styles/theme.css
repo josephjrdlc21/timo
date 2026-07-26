@@ -43,6 +43,53 @@
   --color-brand-950: oklch(28% 0.06 166);
 }
 
+/*
+ * Slim scrollbar for panels that scroll inside the shell (the sidebar nav
+ * first of all). The platform default is a ~15px grey track with stepper
+ * arrows, which reads as OS chrome bolted onto the panel rather than part
+ * of it. The thumb is mixed from --color-base-content, so it inverts with
+ * the theme instead of needing a light and a dark value.
+ */
+@utility scrollbar-slim {
+  /* Firefox has no pseudo-element API, so the standard properties are all it gets. */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--color-base-content) 20%, transparent) transparent;
+
+  /*
+   * Chromium and Safari ignore ::-webkit-scrollbar outright once either
+   * standard property is set, falling back to the platform thin bar — still
+   * grey, still arrowed on Windows. Reverting both, only where the pseudo-
+   * element actually exists, hands painting back to the rules below.
+   */
+  @supports selector(::-webkit-scrollbar) {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 9999px;
+      background-color: color-mix(in oklch, var(--color-base-content) 20%, transparent);
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: color-mix(in oklch, var(--color-base-content) 35%, transparent);
+    }
+
+    /* Chromium draws stepper buttons on Windows; they have no place here. */
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+  }
+}
+
 @plugin "daisyui/theme" {
   name: "timo-light";
   default: true;
