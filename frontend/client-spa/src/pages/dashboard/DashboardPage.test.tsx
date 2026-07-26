@@ -3,10 +3,16 @@ import { describe, expect, it } from "vitest";
 import { DashboardPage } from "./DashboardPage";
 
 describe("DashboardPage", () => {
-  it("renders the page header with its title, subtitle and action", () => {
+  it("renders the page header with its title and subtitle", () => {
     render(<DashboardPage />);
-    expect(screen.getByRole("heading", { level: 1, name: "Apps" })).toBeInTheDocument();
-    expect(screen.getByText(/manage internal and third-party integrations/i)).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /retry/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Overview" })).toBeInTheDocument();
+    expect(screen.getByText(/a snapshot of your workspace at a glance/i)).toBeInTheDocument();
+  });
+
+  it("renders the empty state while there is no activity to show", () => {
+    render(<DashboardPage />);
+    expect(
+      screen.getByRole("heading", { level: 3, name: /nothing to show yet/i }),
+    ).toBeInTheDocument();
   });
 });

@@ -1,19 +1,17 @@
-import { RotateCw } from "lucide-react";
-import { PageHeader } from "@timo/ui";
+import { LayoutGrid } from "lucide-react";
+import { EmptyState, PageHeader } from "@timo/ui";
 
-/** Integrations landing page — currently an empty state. */
+/** Overview landing page — the client SPA's only route so far. */
 export function DashboardPage() {
   return (
     <div className="mx-auto">
-      <PageHeader
-        title="Apps"
-        subtitle="Manage internal and third-party integrations"
-        actions={
-          <button type="button" className="btn btn-sm">
-            <RotateCw className="h-4 w-4" aria-hidden="true" />
-            Retry
-          </button>
-        }
+      <PageHeader title="Overview" subtitle="A snapshot of your workspace at a glance" />
+      <EmptyState
+        className="mt-8"
+        size="lg"
+        icon={<LayoutGrid />}
+        title="Nothing to show yet"
+        description="Once your workspace has activity, the metrics and recent updates worth watching land here."
       />
     </div>
   );
