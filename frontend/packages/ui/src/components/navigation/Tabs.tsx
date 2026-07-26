@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from "react";
+import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { cn } from "../../lib/utils/cn";
 import { Badge } from "../display/Badge";
 
@@ -57,7 +57,14 @@ const SIZE_CLASS: Record<TabsSize, string> = {
  * daisyUI tabs. Works controlled (pass `value` + `onChange`) or uncontrolled
  * (optional `defaultValue`, otherwise the first tab). Each item carries its own
  * panel `content`, rendered below the tablist. Proper tab semantics — roles,
- * `aria-selected`, and roving `tabIndex` — are wired for you.
+ * `aria-selected`, roving `tabIndex`, and arrow-key navigation — are wired for
+ * you.
+ *
+ * Keyboard follows the WAI-ARIA tabs pattern: one Tab press reaches the
+ * tablist, then Left/Right (and Home/End) move between tabs with selection
+ * following focus. Roving `tabIndex` is why the arrow keys are load-bearing
+ * rather than a nicety — inactive tabs are deliberately out of the tab order,
+ * so without them they would be unreachable by keyboard entirely.
  */
 export function Tabs({
   items,
@@ -73,6 +80,7 @@ export function Tabs({
   const [internal, setInternal] = useState(defaultValue ?? items[0]?.id);
   // Controlled when `value` is provided, otherwise internal state drives it.
   const active = value ?? internal;
+  const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   const select = (id: string) => {
     if (value === undefined) setInternal(id);
@@ -80,6 +88,41 @@ export function Tabs({
   };
 
   const activeItem = items.find((item) => item.id === active);
+
+  // Disabled tabs are skipped entirely — arrowing onto one would strand focus
+  // on a control that cannot be activated.
+  const reachable = items.filter((item) => !item.disabled);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    const index = reachable.findIndex((item) => item.id === active);
+    let next: number;
+
+    switch (event.key) {
+      case "ArrowRight":
+        next = index + 1;
+        break;
+      case "ArrowLeft":
+        next = index - 1;
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = reachable.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    // Every branch below moves focus, so stop the browser scrolling the page.
+    event.preventDefault();
+    if (reachable.length === 0) return;
+
+    // Wrap around both ends, per the WAI-ARIA tabs pattern.
+    const target = reachable[(next + reachable.length) % reachable.length];
+    select(target.id);
+    tabRefs.current[target.id]?.focus();
+  };
 
   const tabId = (id: string) => `${baseId}-tab-${id}`;
   const panelId = (id: string) => `${baseId}-panel-${id}`;
@@ -97,6 +140,9 @@ export function Tabs({
               key={item.id}
               type="button"
               role="tab"
+              ref={(el) => {
+                tabRefs.current[item.id] = el;
+              }}
               id={tabId(item.id)}
               aria-selected={selected}
               aria-controls={item.content != null ? panelId(item.id) : undefined}
@@ -105,6 +151,7 @@ export function Tabs({
               disabled={item.disabled}
               className={cn("tab gap-2", selected && "tab-active", item.disabled && "tab-disabled")}
               onClick={() => select(item.id)}
+              onKeyDown={handleKeyDown}
             >
               {item.icon}
               {item.label}
