@@ -24,6 +24,11 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items, className }: BreadcrumbProps) {
   if (items.length === 0) return null;
 
+  // A trail has exactly one current page. If a caller has named it, the
+  // positional default must stand down — otherwise both that item and the last
+  // one would carry aria-current="page".
+  const hasExplicitCurrent = items.some((item) => item.active);
+
   return (
     <nav
       aria-label="Breadcrumb"
@@ -33,7 +38,7 @@ export function Breadcrumb({ items, className }: BreadcrumbProps) {
         {items.map((item, index) => {
           // The trail's own end is the current page even when no item is
           // flagged, so callers can leave `active` off entirely.
-          const isCurrent = item.active ?? index === items.length - 1;
+          const isCurrent = item.active ?? (!hasExplicitCurrent && index === items.length - 1);
           const Icon = item.icon;
           const content = (
             <>
