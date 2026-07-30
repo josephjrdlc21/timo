@@ -7,6 +7,7 @@
     "lint": "pnpm -C backend lint && pnpm -C frontend lint",
     "lint:fix": "pnpm -C backend lint:fix && pnpm -C frontend lint:fix",
     "typecheck": "pnpm -C backend typecheck && pnpm -C frontend typecheck",
+    "knip": "knip",
     "test": "pnpm -C frontend test",
     "format": "pnpm -C backend format && pnpm -C frontend format",
     "format:check": "pnpm -C backend format:check && pnpm -C frontend format:check",
@@ -15,7 +16,8 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "knip": "6.29.0"
   },
   "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }

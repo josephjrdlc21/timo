@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": ["validate-commit-msg.mjs", "prettier.config.mjs"],
+      "project": ["*.mjs"],
+      "ignoreDependencies": ["prettier"]
+    },
+    "backend": {},
+    "frontend": {},
+    "frontend/packages/*": {},
+    "frontend/client-spa": {},
+    "frontend/iam-admin": {}
+  }
+}
