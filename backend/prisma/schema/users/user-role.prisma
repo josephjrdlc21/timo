@@ -1,0 +1,14 @@
+/// Explicit join table, so the relation lands as `user_roles(user_id, role_id)`
+/// instead of Prisma's implicit `_RoleToUser` with `A`/`B` columns.
+model UserRole {
+  userId     String   @map("user_id")
+  roleId     Int      @map("role_id")
+  assignedAt DateTime @default(now()) @map("assigned_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@map("user_roles")
+}

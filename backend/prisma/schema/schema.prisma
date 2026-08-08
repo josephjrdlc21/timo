@@ -1,0 +1,13 @@
+// Generator and datasource only. Models live in per-domain folders alongside
+// this file (e.g. `users/`) — Prisma searches the schema folder recursively.
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "mysql"
+}
