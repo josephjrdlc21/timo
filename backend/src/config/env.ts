@@ -15,6 +15,9 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   DATABASE_URL: z.string().min(1).default("mysql://USER:PASSWORD@HOST:3306/DATABASE_NAME"),
   JWT_SECRET: z.string().min(1).default("replace-this-later"),
+  SEED_ADMIN_EMAIL: z.email().default("admin@timo.local"),
+  SEED_ADMIN_NAME: z.string().min(1).default("TIMO Admin"),
+  SEED_ADMIN_PASSWORD: z.string().min(1).default("change-this-locally"),
 });
 
 export const env = envSchema.parse(process.env);

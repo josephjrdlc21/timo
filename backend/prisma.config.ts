@@ -11,9 +11,10 @@ const envFile =
 dotenv.config({ path: envFile, override: true });
 
 export default defineConfig({
-  schema: "prisma/schema.prisma",
+  schema: "prisma/schema",
   migrations: {
-    path: "prisma/migrations",
+    path: "prisma/migrations/users",
+    seed: "tsx prisma/seeders/index.ts",
   },
   datasource: {
     url: process.env.DATABASE_URL ?? "mysql://USER:PASSWORD@HOST:3306/DATABASE_NAME",
