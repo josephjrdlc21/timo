@@ -21,14 +21,23 @@ Run from the repo root (a root `package.json` orchestrates both projects):
 - `pnpm format:check` — Prettier `--check` (no writes)
 - `pnpm typecheck` — `tsc` over backend and frontend
 - `pnpm check` — format:check + lint + typecheck for both
-- `pnpm test` — Vitest across every frontend workspace package
+- `pnpm test` — Vitest across the backend **and** every frontend workspace package
 - `pnpm install:all` — install deps in both projects
 
-`pnpm test` fans out with `pnpm -r test`, so each package runs under its own
-`vitest.config.ts` and setup file. Running `vitest` from `frontend/` directly
-does **not** work — there is no config there, so it picks up a subset of the
-suites with the wrong environment. `pnpm check` deliberately does not run the
-tests: it is the `pre-commit` hook, and it is kept fast.
+On the frontend, `pnpm test` fans out with `pnpm -r test`, so each package runs
+under its own `vitest.config.ts` and setup file. Running `vitest` from
+`frontend/` directly does **not** work — there is no config there, so it picks
+up a subset of the suites with the wrong environment. `pnpm check` deliberately
+does not run the tests: it is the `pre-commit` hook, and it is kept fast.
+
+The backend suite lives in `backend/test/` (not colocated in `src/`, which is
+the build's `rootDir`) and runs serially against the **real local `timo`
+database** — there is no separate test schema. It is written to be
+non-destructive: it creates `@test.local` users and deletes only those rows, so
+the seeded `admin@timo.local` and the `admin`/`user` roles survive a run. Never
+add a `TRUNCATE` to it. Because `test/` sits outside `rootDir`, `pnpm typecheck`
+uses `tsconfig.test.json` while `pnpm build` still uses `tsconfig.json`, which
+keeps test files out of `dist`.
 
 Both projects use ESLint (flat config) + `typescript-eslint`, and Prettier for
 formatting. Backend and frontend are pinned to **TypeScript 5.9.3** — do not

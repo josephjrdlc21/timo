@@ -8,7 +8,7 @@
     "lint:fix": "pnpm -C backend lint:fix && pnpm -C frontend lint:fix",
     "typecheck": "pnpm -C backend typecheck && pnpm -C frontend typecheck",
     "knip": "knip",
-    "test": "pnpm -C frontend test",
+    "test": "pnpm -C backend test:run && pnpm -C frontend test",
     "format": "pnpm -C backend format && pnpm -C frontend format",
     "format:check": "pnpm -C backend format:check && pnpm -C frontend format:check",
     "check": "pnpm run format:check && pnpm run lint && pnpm run typecheck",

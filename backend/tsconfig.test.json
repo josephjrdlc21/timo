@@ -1,0 +1,12 @@
+{
+  // Typecheck-only view that also covers `test/`, which sits outside the build's
+  // rootDir. `pnpm build` still uses tsconfig.json, so tests never reach dist.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "declaration": false
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts", "vitest.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}
